@@ -1,0 +1,357 @@
+/*
+ * globals.css
+ * ──────────────────────────────────────────────
+ * 1. Tailwind directives
+ * 2. CSS custom properties (design tokens)
+ * 3. Base resets & typography
+ * 4. Scrollbar styling (dark-mode friendly)
+ * 5. Utility layer extensions
+ */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── 1. Design Tokens ─────────────────────────── */
+:root {
+  /* Surfaces */
+  --bg:          #111111;
+  --surface:     #171717;
+  --raised:      #222222;
+  --border:      #2a2a2a;
+  --hover:       #262626;
+
+  /* Accent (Subtle Indigo) */
+  --accent:      #818cf8;
+  --accent-light:#a5b4fc;
+  --accent-glow: rgba(129, 140, 248, 0.15);
+
+  /* Text */
+  --text-primary:  #f4f4f5;
+  --text-secondary:#a1a1aa;
+  --text-muted:    #71717a;
+
+  /* Sizing */
+  --sidebar-w:     260px;
+  --sidebar-w-col: 68px;
+  --ai-panel-w:    340px;
+  --toolbar-h:     56px;
+}
+
+/* ── 2. Base Resets ───────────────────────────── */
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 15px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow: hidden; /* prevent body scroll — panels scroll individually */
+  }
+
+  /* Remove default list styling */
+  ul, ol { list-style: none; }
+
+  /* Focus visible ring for keyboard accessibility */
+  :focus-visible {
+    outline: 2px solid var(--accent-light);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+/* ── 3. Scrollbar ─────────────────────────────── */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* ── 4. Component Utilities ───────────────────── */
+@layer components {
+  /* Sidebar nav item base */
+  .nav-item {
+    @apply flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium
+           text-ink-secondary transition-colors duration-200 cursor-pointer
+           hover:bg-workspace-hover hover:text-ink-primary;
+  }
+  .nav-item.active {
+    background-color: rgba(255, 255, 255, 0.06);
+    color: #f4f4f5;
+  }
+
+  /* Panel container */
+  .panel {
+    @apply bg-workspace-surface border-r border-workspace-border
+           flex flex-col overflow-hidden;
+  }
+
+  /* Card */
+  .card {
+    @apply bg-workspace-raised border border-workspace-border rounded-lg p-4;
+  }
+
+  /* Divider */
+  .divider {
+    @apply border-t border-workspace-border my-2;
+  }
+
+  /* Input base */
+  .input-base {
+    @apply w-full bg-workspace-raised border border-workspace-border rounded-lg
+           px-3 py-2 text-sm text-ink-primary placeholder:text-ink-muted
+           focus:outline-none focus:border-accent/60 focus:ring-1 focus:ring-accent/30
+           transition-colors duration-200;
+  }
+
+  /* Chip / action button */
+  .chip {
+    @apply inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium
+           border border-workspace-border text-ink-secondary bg-workspace-raised
+           hover:border-accent/50 hover:text-accent-light transition-colors duration-200 cursor-pointer;
+  }
+}
+
+/* ── 5. Animations ────────────────────────────── */
+@layer utilities {
+  .slide-in-left {
+    animation: slideInLeft 0.2s ease-out;
+  }
+  .slide-in-right {
+    animation: slideInRight 0.2s ease-out;
+  }
+  .fade-in {
+    animation: fadeIn 0.2s ease-out;
+  }
+  /* dvh fallback for older Android browsers */
+  .h-dvh {
+    height: 100vh;
+    height: 100dvh;
+  }
+}
+
+@keyframes slideInLeft {
+  from { transform: translateX(-100%); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+@keyframes slideInRight {
+  from { transform: translateX(100%); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   TIPTAP EDITOR STYLES
+   Scoped to .tiptap-editor so they never leak into other components.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.tiptap-editor {
+  outline: none;
+  min-height: 100%;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  color: #f4f4f5;  /* ink-primary */
+  caret-color: #a5b4fc; /* accent-light */
+}
+
+/* ── Placeholder ──────────────────────────────── */
+.tiptap-editor .is-empty::before {
+  content: attr(data-placeholder);
+  color: #52525b; /* ink-faint */
+  pointer-events: none;
+  position: absolute;
+  font-style: normal;
+}
+.tiptap-editor p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  color: #52525b;
+  pointer-events: none;
+  float: left;
+  height: 0;
+}
+
+/* ── Headings ─────────────────────────────────── */
+.tiptap-editor h1 {
+  font-size: 1.85rem;
+  font-weight: 700;
+  color: #fafafa;
+  margin: 1.75rem 0 0.5rem;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+.tiptap-editor h2 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #f4f4f5;
+  margin: 1.5rem 0 0.4rem;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+}
+.tiptap-editor h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #d4d4d8;
+  margin: 1.25rem 0 0.3rem;
+  line-height: 1.4;
+}
+.tiptap-editor h4 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #a1a1aa;
+  margin: 1rem 0 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ── Paragraph ────────────────────────────────── */
+.tiptap-editor p {
+  margin: 0.4rem 0;
+  color: #a1a1aa; /* ink-secondary */
+}
+.tiptap-editor p + p {
+  margin-top: 0.6rem;
+}
+
+/* ── Bold / Italic / Underline ────────────────── */
+.tiptap-editor strong { color: #f4f4f5; font-weight: 600; }
+.tiptap-editor em     { color: #d4d4d8; }
+.tiptap-editor u      { text-decoration-color: #818cf8; }
+.tiptap-editor s      { color: #71717a; }
+
+/* ── Highlight ────────────────────────────────── */
+.tiptap-editor mark {
+  background-color: rgba(129, 140, 248, 0.2);
+  color: #f4f4f5;
+  border-radius: 4px;
+  padding: 0 4px;
+}
+
+/* ── Inline Code ──────────────────────────────── */
+.tiptap-editor code {
+  background-color: #222222;
+  color: #a5b4fc;
+  border: 1px solid #2a2a2a;
+  border-radius: 6px;
+  padding: 2px 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85em;
+}
+
+/* ── Code Block ───────────────────────────────── */
+.tiptap-editor .editor-code-block,
+.tiptap-editor pre {
+  background-color: #111111;
+  border: 1px solid #2a2a2a;
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  margin: 1.25rem 0;
+  overflow-x: auto;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.875rem;
+  line-height: 1.7;
+  color: #a5b4fc;
+}
+.tiptap-editor pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: inherit;
+  font-size: inherit;
+}
+
+/* ── Blockquote ───────────────────────────────── */
+.tiptap-editor blockquote {
+  border-left: 3px solid #818cf8;
+  padding-left: 1.25rem;
+  margin: 1.25rem 0;
+  color: #71717a;
+  font-style: italic;
+}
+
+/* ── Lists ────────────────────────────────────── */
+.tiptap-editor ul {
+  list-style: none;
+  padding-left: 1.25rem;
+  margin: 0.75rem 0;
+}
+.tiptap-editor ul li {
+  position: relative;
+  color: #a1a1aa;
+}
+.tiptap-editor ul li::before {
+  content: '•';
+  color: #818cf8;
+  position: absolute;
+  left: -1.25rem;
+  font-size: 1.2em;
+}
+.tiptap-editor ol {
+  list-style: decimal;
+  padding-left: 1.5rem;
+  margin: 0.75rem 0;
+  color: #a1a1aa;
+}
+.tiptap-editor li + li {
+  margin-top: 0.25rem;
+}
+.tiptap-editor li p {
+  margin: 0;
+}
+
+/* ── Horizontal rule ──────────────────────────── */
+.tiptap-editor hr {
+  border: none;
+  border-top: 1px solid #2a2a2a;
+  margin: 2rem 0;
+}
+
+/* ── Selection ────────────────────────────────── */
+.tiptap-editor ::selection {
+  background-color: rgba(129, 140, 248, 0.3);
+  color: #fafafa;
+}
+
+/* ── Focus ring (editor level) ────────────────── */
+.tiptap-editor:focus {
+  outline: none;
+}
+
+/* ── Scrollbar suppression inside editor ──────── */
+.tiptap-editor::-webkit-scrollbar { display: none; }
+
+/* ── Text alignment ───────────────────────────── */
+.tiptap-editor [style*="text-align: center"] { text-align: center; }
+.tiptap-editor [style*="text-align: right"]  { text-align: right; }
+.tiptap-editor [style*="text-align: left"]   { text-align: left; }
+
+/* ── Scrollbar hidden utility ─────────────────── */
+.scrollbar-none { scrollbar-width: none; }
+.scrollbar-none::-webkit-scrollbar { display: none; }
+

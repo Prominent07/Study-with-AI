@@ -1,0 +1,251 @@
+/**
+ * types/index.ts
+ * ─────────────────────────────────────────────────────────────────────────────
+ * Shared TypeScript interfaces and types used across the entire application.
+ *
+ * These types form the domain model for the initial shell and will be
+ * extended as features (AI chat, PDFs, flashcards, etc.) are added.
+ */
+
+// ── AI Providers ────────────────────────────────────────────────────────────
+
+/** Supported AI provider identifiers */
+export type AIProvider = 'gpt' | 'claude' | 'gemini';
+
+/** Metadata for each AI provider (used in the switcher UI) */
+export interface AIProviderConfig {
+  id: AIProvider;
+  label: string;
+  description: string;
+  color: string;       // Brand color for the tab/badge
+  available: boolean;  // false = coming soon
+}
+
+// ── Navigation ───────────────────────────────────────────────────────────────
+
+/** All top-level navigation destinations */
+export type NavItem =
+  | 'notes'
+  | 'research'
+  | 'pdfs'
+  | 'flashcards'
+  | 'canvas'
+  | 'settings';
+
+/** Sidebar navigation item definition */
+export interface NavItemConfig {
+  id: NavItem;
+  label: string;
+  icon: string;        // lucide-react icon name (resolved at component level)
+  path: string;        // React Router path
+  badge?: number;      // Optional unread/count badge
+}
+
+// ── Notes & Workspace ────────────────────────────────────────────────────────
+
+/** A lightweight note reference (used in Recent Notes list) */
+export interface RecentNote {
+  id: string;
+  title: string;
+  excerpt: string;     // First ~80 chars of content
+  updatedAt: string;   // ISO 8601 timestamp
+  tag?: string;        // Optional category tag
+  tagColor?: string;   // Tag accent color
+}
+
+/** Full note document stored in localStorage / future DB */
+export interface NoteDocument {
+  id: string;
+  title: string;
+  /** Tiptap JSON content — serialized editor state */
+  content: object;
+  /** Plain text excerpt for sidebar preview (~100 chars) */
+  excerpt: string;
+  /** Folder this note belongs to. null = uncategorized */
+  folderId: string | null;
+  tags: string[];
+  tagColor?: string;
+  createdAt: string;
+  updatedAt: string;
+  isPinned: boolean;
+  wordCount: number;
+  /** IDs of notes linked from this note (for future knowledge graph) */
+  linkedNoteIds?: string[];
+  /** Revision engine metadata */
+  isFavorite?: boolean;
+  studyProgress?: 'new' | 'learning' | 'review' | 'mastered';
+  lastReviewed?: string;
+}
+
+/** Folder — contains notes. Supports future nesting via parentId */
+export interface Folder {
+  id: string;
+  name: string;
+  /** null = root-level folder (Phase 3+: support nested folders via parentId) */
+  parentId: string | null;
+  /** Accent color for the folder icon */
+  color?: string;
+  createdAt: string;
+  /** UI state — not persisted to DB in a real backend */
+  isExpanded?: boolean;
+}
+
+/** A note tab — represents a note open in the tab bar */
+export interface NoteTab {
+  noteId: string;
+  /** Cached title so the tab renders even if note switches */
+  title: string;
+}
+
+/** Legacy — kept for backwards compat with other stores. Use NoteDocument instead. */
+export interface Note {
+  id: string;
+  title: string;
+  content: string;
+  tags: string[];
+  createdAt: string;
+  updatedAt: string;
+  isPinned: boolean;
+}
+
+// ── Flashcards & Revision ──────────────────────────────────────────────────────
+
+export type StudyProgress = 'new' | 'learning' | 'review' | 'mastered';
+
+/** A single flashcard tied to a note */
+export interface Flashcard {
+  id: string;
+  noteId: string;
+  front: string;
+  back: string;
+  tags: string[];
+  difficulty: 1 | 2 | 3 | 4 | 5; // 1 = easy, 5 = hard
+  nextReview: string | null;
+  lastReviewed: string | null;
+  createdAt: string;
+}
+
+/** A study session record */
+export interface StudySession {
+  id: string;
+  date: string;
+  cardsReviewed: number;
+  timeSpentMs: number;
+}
+
+// ── Research & PDFs ────────────────────────────────────────────────────────────
+
+/** A saved PDF document */
+export interface PdfDocument {
+  id: string;
+  name: string;
+  size: number; // bytes
+  url: string;  // blob URL
+  createdAt: string;
+}
+
+/** A saved research snippet or bookmark */
+export interface ResearchItem {
+  id: string;
+  type: 'snippet' | 'bookmark';
+  content: string; // text snippet or page title
+  sourceUrl?: string; // origin URL
+  sourceTitle?: string; // origin page title
+  tags: string[];
+  createdAt: string;
+}
+
+// ── AI Chat ──────────────────────────────────────────────────────────────────
+
+/** Role in a chat conversation */
+export type MessageRole = 'user' | 'assistant' | 'system';
+
+/** A single chat message */
+export interface ChatMessage {
+  id: string;
+  role: MessageRole;
+  content: string;
+  provider?: AIProvider;
+  timestamp: string;
+  /** True while a streaming response is still being received */
+  isStreaming?: boolean;
+  /** If this message was generated by a quick action */
+  actionId?: string;
+}
+
+/** Quick action chips in the AI panel */
+export interface AIQuickAction {
+  id: string;
+  label: string;
+  /** Prompt template — {noteTitle} and {noteContent} are injected at send time */
+  prompt: string;
+  icon: string;
+  /** Category for grouping future action palettes */
+  category?: 'study' | 'write' | 'code' | 'general';
+}
+
+/**
+ * Context automatically injected into every AI request.
+ * This keeps prompts note-aware without the user having to copy-paste content.
+ *
+ * Architecture: Context is built by useAIContext hook just before sending,
+ * so it always reflects the current editor state.
+ */
+export interface AIContext {
+  /** Current note title */
+  noteTitle?: string;
+  /** Full note content as plain text (extracted from Tiptap JSON) */
+  noteContent?: string;
+  /** Currently selected text in the editor (prepared for future use) */
+  selectedText?: string;
+  /** Word count for the current note */
+  wordCount?: number;
+}
+
+/**
+ * Options passed to the AI service layer.
+ * Streaming-ready: onChunk fires with each token, onComplete fires when done.
+ * AbortController support: pass a signal to cancel mid-stream.
+ */
+export interface AIRequestOptions {
+  provider: AIProvider;
+  messages: ChatMessage[];
+  context?: AIContext;
+  /** AbortController signal — passed through to fetch() for cancellation */
+  signal?: AbortSignal;
+  /** Called with each streaming token (empty string for non-streaming responses) */
+  onChunk?: (chunk: string) => void;
+  /** Called with the full assembled response when streaming completes */
+  onComplete?: (fullText: string) => void;
+  /** Called on any API error */
+  onError?: (error: Error) => void;
+}
+
+/** Streaming callbacks (extracted for reuse in hooks) */
+export interface AIStreamCallbacks {
+  onChunk?: (chunk: string) => void;
+  onComplete?: (fullText: string) => void;
+  onError?: (error: Error) => void;
+}
+
+/**
+ * A full conversation — a named session grouping messages.
+ * Prepared for multi-conversation support (like ChatGPT's sidebar).
+ */
+export interface AIConversation {
+  id: string;
+  title: string;
+  provider: AIProvider;
+  messages: ChatMessage[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+// ── Layout ───────────────────────────────────────────────────────────────────
+
+/** Workspace panel layout state */
+export interface LayoutState {
+  sidebarOpen: boolean;
+  sidebarCollapsed: boolean; // icon-only mode on larger screens
+  aiPanelOpen: boolean;
+}
