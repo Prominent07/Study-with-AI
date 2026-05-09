@@ -1,0 +1,1 @@
+import{j as e,k as r}from"./index-Bik5OipD.js";const a=()=>e.jsx("div",{className:"h-full bg-workspace-bg flex justify-center p-8",children:e.jsx("div",{className:"w-full max-w-3xl h-[80%] rounded-2xl border border-workspace-border overflow-hidden shadow-sm",children:e.jsx(r,{})})});export{a as default};
