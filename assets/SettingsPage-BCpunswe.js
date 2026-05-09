@@ -1,0 +1,21 @@
+import{c as t,j as e,t as c,K as d,e as o}from"./index-Bstgznhk.js";/**
+ * @license lucide-react v0.378.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */const l=t("Bell",[["path",{d:"M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9",key:"1qo2s2"}],["path",{d:"M10.3 21a1.94 1.94 0 0 0 3.4 0",key:"qgo35s"}]]);/**
+ * @license lucide-react v0.378.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */const x=t("Database",[["ellipse",{cx:"12",cy:"5",rx:"9",ry:"3",key:"msslwz"}],["path",{d:"M3 5V19A9 3 0 0 0 21 19V5",key:"1wlel7"}],["path",{d:"M3 12A9 3 0 0 0 21 12",key:"mv7ke4"}]]);/**
+ * @license lucide-react v0.378.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */const m=t("Moon",[["path",{d:"M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z",key:"a7tn18"}]]);/**
+ * @license lucide-react v0.378.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */const p=t("Shield",[["path",{d:"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z",key:"oel41y"}]]),s=({icon:i,title:r,description:n,badge:a})=>e.jsxs("div",{className:"flex items-center gap-4 p-4 rounded-lg hover:bg-workspace-hover transition-colors duration-200 cursor-pointer group",children:[e.jsx("div",{className:"w-9 h-9 rounded-lg bg-workspace-raised border border-workspace-border flex items-center justify-center text-ink-muted group-hover:text-ink-secondary flex-shrink-0 transition-colors",children:i}),e.jsxs("div",{className:"flex-1 min-w-0",children:[e.jsxs("div",{className:"flex items-center gap-2",children:[e.jsx("p",{className:"text-sm font-medium text-ink-secondary group-hover:text-ink-primary transition-colors",children:r}),a&&e.jsx(o,{label:a,color:"#a78bfa"})]}),e.jsx("p",{className:"text-xs text-ink-muted mt-0.5",children:n})]}),e.jsx("span",{className:"text-ink-faint text-sm",children:"›"})]}),j=()=>e.jsxs("div",{className:"h-full flex flex-col bg-workspace-bg",children:[e.jsx("div",{className:"h-[52px] flex items-center px-6 border-b border-workspace-border bg-workspace-surface flex-shrink-0",children:e.jsxs("div",{className:"flex items-center gap-2",children:[e.jsx(c,{size:18,className:"text-accent-light"}),e.jsx("span",{className:"text-sm font-semibold text-ink-primary",children:"Settings"})]})}),e.jsx("div",{className:"flex-1 overflow-y-auto p-6",children:e.jsxs("div",{className:"max-w-xl mx-auto",children:[e.jsx("h1",{className:"text-xl font-bold text-ink-primary mb-1",children:"Settings"}),e.jsx("p",{className:"text-sm text-ink-muted mb-6",children:"Configure your StudyAI workspace"}),e.jsxs("div",{className:"space-y-1",children:[e.jsx("p",{className:"text-xs font-semibold text-ink-muted uppercase tracking-wider px-4 mb-2",children:"AI Providers"}),e.jsx(s,{icon:e.jsx(d,{size:18}),title:"API Keys",description:"Connect OpenAI, Anthropic, and Google AI",badge:"Required"}),e.jsx("div",{className:"divider"}),e.jsx("p",{className:"text-xs font-semibold text-ink-muted uppercase tracking-wider px-4 mb-2 mt-4",children:"Appearance"}),e.jsx(s,{icon:e.jsx(m,{size:18}),title:"Theme",description:"Dark mode (default) · Light mode · System"}),e.jsx("div",{className:"divider"}),e.jsx("p",{className:"text-xs font-semibold text-ink-muted uppercase tracking-wider px-4 mb-2 mt-4",children:"Data & Sync"}),e.jsx(s,{icon:e.jsx(x,{size:18}),title:"Storage",description:"Local storage · Cloud sync (coming soon)",badge:"Beta"}),e.jsx(s,{icon:e.jsx(l,{size:18}),title:"Notifications",description:"Study reminders and spaced repetition alerts"}),e.jsx(s,{icon:e.jsx(p,{size:18}),title:"Privacy",description:"Data handling, analytics, and permissions"})]}),e.jsxs("div",{className:"mt-8 p-4 rounded-lg border border-workspace-border bg-workspace-raised text-center",children:[e.jsx("p",{className:"text-xs text-ink-muted",children:"StudyAI v0.1.0 · Foundation Build"}),e.jsx("p",{className:"text-xs text-ink-faint mt-1",children:"© 2025 StudyAI. All rights reserved."})]})]})})]});export{j as default};
