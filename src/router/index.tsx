@@ -8,7 +8,7 @@
  */
 
 import React, { lazy, Suspense } from 'react';
-import { createBrowserRouter, Navigate } from 'react-router-dom';
+import { createHashRouter, Navigate } from 'react-router-dom';
 import { WorkspaceLayout } from '@/layouts/WorkspaceLayout';
 
 // ── Code-split pages for better initial load on low-RAM devices ───────────────
@@ -37,7 +37,7 @@ const withSuspense = (Component: React.ComponentType) => (
 );
 
 // ── Router Definition ─────────────────────────────────────────────────────────
-export const router = createBrowserRouter([
+export const router = createHashRouter([
   {
     path: '/',
     element: <WorkspaceLayout />,

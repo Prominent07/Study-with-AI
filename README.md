@@ -1,64 +1,42 @@
 # StudyAI — AI-Powered Academic Workspace
 
-> A modular, dark-mode-first academic workspace built with React + Vite + TypeScript + TailwindCSS.
+StudyAI is a premium, offline-first academic workspace designed for students and researchers. It combines a robust Tiptap-based note-taking engine with a deep AI context system, an infinite whiteboard canvas, and research tools.
 
-## Quick Start
+## 🚀 Features
 
-```bash
-# Install dependencies
-npm install
+- **Multi-Note Management**: Hierarchical folders, tabs, and backlinks.
+- **AI Assistant**: Context-aware sidebar with multi-provider support (OpenAI, Anthropic, Gemini).
+- **Infinite Canvas**: Brainstorm and visualize ideas using the integrated `tldraw` engine.
+- **PWA & Offline-First**: Fully installable and functional without an internet connection.
+- **Research Hub**: Integrated PDF viewer and source management.
+- **Knowledge Graph**: Track backlinks and interconnected concepts.
+- **Study Engine**: Automated flashcard generation and revision tracking.
 
-# Start dev server
-npm run dev
+## 🛠️ Setup
 
-# Type check
-npm run typecheck
-```
+1. **Install Dependencies**:
+   ```bash
+   npm install
+   ```
 
-## Tech Stack
+2. **Configure Environment**:
+   Create a `.env` file based on `.env.example` and add your AI provider API keys.
 
-| Layer | Technology |
-|---|---|
-| Framework | React 18 + Vite 5 |
-| Language | TypeScript (strict) |
-| Styling | TailwindCSS v3 |
-| State | Zustand |
-| Routing | React Router v6 |
-| Icons | lucide-react |
+3. **Development**:
+   ```bash
+   npm run dev
+   ```
 
-## Project Structure
+4. **Deployment**:
+   ```bash
+   npm run deploy
+   ```
 
-```
-src/
-├── components/ui/      # Shared: Button, Input, Badge, Tooltip
-├── features/
-│   ├── sidebar/        # Left navigation panel
-│   ├── editor/         # Main editor area
-│   └── ai-panel/       # Right AI assistant panel
-├── layouts/            # WorkspaceLayout (3-panel shell)
-├── pages/              # Route-level page components
-├── store/              # Zustand stores (layout, AI, workspace)
-├── hooks/              # useMediaQuery, useKeyboard
-├── services/ai/        # AI provider stubs (future: real SDK calls)
-├── types/              # Shared TypeScript interfaces
-├── router/             # React Router config
-└── styles/             # globals.css (Tailwind + CSS tokens)
-```
+## 🏗️ Architecture
 
-## Keyboard Shortcuts
+- **Core**: Decoupled infrastructure for events, sync, and plugins in `src/core/`.
+- **State**: Modular Zustand stores for every major feature area.
+- **UI**: Modern, neutral dark-mode design system built with Tailwind CSS.
 
-| Shortcut | Action |
-|---|---|
-| `Ctrl/⌘ + B` | Toggle sidebar |
-| `Ctrl/⌘ + J` | Toggle AI panel |
-
-## Planned Features (Future Phases)
-
-- [ ] Rich text editor (TipTap / Lexical)
-- [ ] AI chat integration (OpenAI, Anthropic, Google)
-- [ ] PDF viewer + AI analysis
-- [ ] Flashcard spaced repetition system
-- [ ] Infinite canvas / mind maps
-- [ ] Knowledge graph visualization
-- [ ] Offline support (IndexedDB + Service Workers)
-- [ ] Collaboration (WebSockets / CRDTs)
+---
+Built with ❤️ for the future of learning.
